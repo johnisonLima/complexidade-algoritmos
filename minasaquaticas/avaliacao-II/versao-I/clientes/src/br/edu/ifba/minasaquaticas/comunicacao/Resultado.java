@@ -1,5 +1,6 @@
 package br.edu.ifba.minasaquaticas.comunicacao;
 
-public class Resultado {
-
+public enum Resultado {
+    SUCESSO,
+    ERRO
 }
