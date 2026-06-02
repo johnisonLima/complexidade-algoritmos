@@ -11,6 +11,64 @@ import br.edu.ifba.minasaquaticas.ordenador.TipoOrdenacao;
 
 public class OperacoesImpl implements Operacoes<Mina, Leitura> {
 
+    /**
+     * Estrutura central do servidor.
+     *
+     * Armazena todas as leituras recebidas das minas.
+     */
+    private final Map<Mina, List<Leitura>> leiturasPorMinas =
+        new TreeMap<>();
+
+    /**
+     * Grava uma nova leitura recebida do cliente.
+     */
+    public synchronized void gravar(
+        Mina mina,
+        Leitura leitura
+    ) {
+
+        if (!leiturasPorMinas.containsKey(mina)) {
+
+            leiturasPorMinas.put(
+                mina,
+                new ArrayList<>()
+            );
+        }
+
+        leiturasPorMinas
+            .get(mina)
+            .add(leitura);
+    }
+
+    /**
+     * Retorna todas as leituras armazenadas.
+     */
+    public Map<Mina, List<Leitura>> consultar() {
+        return leiturasPorMinas;
+    }
+
+    /**
+     * Retorna a quantidade de minas monitoradas.
+     */
+    public int quantidadeMinas() {
+        return leiturasPorMinas.size();
+    }
+
+    /**
+     * Retorna a quantidade total de leituras recebidas.
+     */
+    public int quantidadeLeituras() {
+
+        int total = 0;
+
+        for (List<Leitura> leituras : leiturasPorMinas.values()) {
+            total += leituras.size();
+        }
+
+        return total;
+    }
+
+
     // O(N)
     // É um único loop usado para imprimir elementos em sequence, onde N é o número de minas monitoradas
     // Não tem grande impacto mesmo com um número elevado de minas, pois é uma operação linear simples

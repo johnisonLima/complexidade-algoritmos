@@ -27,7 +27,7 @@ public class Leitura {
 
     @Override
     public String toString() {
-        return "Valores=>[profundidade: " + profundidade + ", proximidade: " + proximidade + "]";
+        return "Valores=>[profundidade: " + profundidade + ", proximidade: " + proximidade + "]\n";
     }
 
 }
