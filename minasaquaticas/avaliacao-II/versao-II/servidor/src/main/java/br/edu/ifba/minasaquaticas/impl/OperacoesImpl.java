@@ -1,8 +1,10 @@
 package br.edu.ifba.minasaquaticas.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.TreeMap;
 
 import br.edu.ifba.minasaquaticas.operacoes.Operacoes;
@@ -10,89 +12,110 @@ import br.edu.ifba.minasaquaticas.ordenador.Ordenador;
 import br.edu.ifba.minasaquaticas.ordenador.TipoOrdenacao;
 
 public class OperacoesImpl implements Operacoes<Mina, Leitura> {
+    /**
+    * Quantidade máxima de leituras mantidas
+    * em memória para cada mina.
+    */
+    private static final int LIMIAR_ROTACIONAMENTO_LEITURAS = 40;
 
     /**
-     * Estrutura central do servidor.
-     *
-     * Armazena todas as leituras recebidas das minas.
-     */
-    private final Map<Mina, List<Leitura>> leiturasPorMinas =
-        new TreeMap<>();
+    * Mantém apenas as leituras mais recentes
+    * de cada mina.
+    */
+    private final Map<Mina, Queue<Leitura>> leiturasPorMinas = new TreeMap<>();
     /**
-     * Quantidade de eventos detectados
-     * localmente por cada mina.
-     */
-    private final Map<Mina, Integer> eventosPorMinas =
-        new TreeMap<>();
+    * Quantidade de eventos detectados
+    * localmente por cada mina.
+    */
+    private final Map<Mina, Integer> eventosPorMinas = new TreeMap<>();
 
     /**
-     * Grava uma nova leitura recebida do cliente.
-     */
+    * O(log N)
+    *
+    * Registra uma nova leitura para a mina.
+    * Caso o limite de armazenamento seja atingido,
+    * a leitura mais antiga é descartada.
+    */
     @Override
-    public synchronized void gravar(
-        Mina mina,
-        Leitura leitura
-    ) {
+    public synchronized void gravar(Mina mina, Leitura leitura) {
 
-        if (!leiturasPorMinas.containsKey(mina)) {
+        Queue<Leitura> leituras = new LinkedList<>();
 
-            leiturasPorMinas.put(
-                mina,
-                new ArrayList<>()
-            );
+        if (leiturasPorMinas.containsKey(mina)) {
+
+            leituras = leiturasPorMinas.get(mina);
+
+        } else {
+
+            leiturasPorMinas.put(mina, leituras);
         }
 
-        leiturasPorMinas
-            .get(mina)
-            .add(leitura);
+        if (leituras.size() >= LIMIAR_ROTACIONAMENTO_LEITURAS) {
+
+            leituras.poll();
+
+            System.out.println("Limite de leituras atingido. " + "Leitura mais antiga removida.");
+        }
+
+        leituras.add(leitura);
     }
 
     /**
-     * Registra a quantidade de eventos
-     * detectados pela mina durante sua execução.
-     */
+    * Registra a quantidade de eventos
+    * detectados pela mina durante sua execução.
+    */
     @Override
-    public synchronized void gravar(
-        Mina mina,
-        int eventos
-    ) {
+    public synchronized void gravar(Mina mina, int eventos) {
 
-        eventosPorMinas.put(
-            mina,
-            eventos
-        );
+        if (
+            eventosPorMinas.containsKey(mina)
+        ) {
+
+            eventos += eventosPorMinas.get(mina);
+        }
+
+        eventosPorMinas.put(mina, eventos);
     }
 
     /**
-     * Retorna todas as leituras armazenadas.
-     */
+    * Retorna todas as leituras armazenadas.
+    */
     public Map<Mina, List<Leitura>> consultar() {
-        return leiturasPorMinas;
+
+        Map<Mina, List<Leitura>> resultado = new TreeMap<>();
+
+        for (Mina mina : leiturasPorMinas.keySet()) {
+
+            resultado.put(mina, new ArrayList<>(leiturasPorMinas.get(mina)));
+        }
+
+        return resultado;
     }
 
     /**
-     * Retorna os eventos registrados
-     * por cada mina.
-     */
+    * Retorna os eventos registrados
+    * por cada mina.
+    */
     public Map<Mina, Integer> consultarEventos() {
         return eventosPorMinas;
     }
 
     /**
-     * Retorna a quantidade de minas monitoradas.
-     */
+    * Retorna a quantidade de minas monitoradas.
+    */
     public int quantidadeMinas() {
         return leiturasPorMinas.size();
     }
 
     /**
-     * Retorna a quantidade total de leituras recebidas.
-     */
+    * Retorna a quantidade total de leituras recebidas.
+    */
     public int quantidadeLeituras() {
 
         int total = 0;
 
-        for (List<Leitura> leituras : leiturasPorMinas.values()) {
+        for (Queue<Leitura> leituras : leiturasPorMinas.values()) {
+
             total += leituras.size();
         }
 
@@ -100,9 +123,9 @@ public class OperacoesImpl implements Operacoes<Mina, Leitura> {
     }
 
     /**
-     * Retorna a quantidade total de eventos
-     * detectados por todas as minas.
-     */
+    * Retorna a quantidade total de eventos
+    * detectados por todas as minas.
+    */
     public int quantidadeEventos() {
 
         int total = 0;

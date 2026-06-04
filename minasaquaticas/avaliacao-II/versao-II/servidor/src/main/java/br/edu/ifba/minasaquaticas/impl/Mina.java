@@ -6,11 +6,7 @@ public class Mina implements Comparable<Mina> {
 
     private Integer modelo = 0;
 
-    public Mina(
-        Integer id,
-        Integer modelo
-    ) {
-
+    public Mina(Integer id, Integer modelo) {
         this.id = id;
         this.modelo = modelo;
     }
@@ -33,15 +29,13 @@ public class Mina implements Comparable<Mina> {
 
     @Override
     public int compareTo(Mina outraMina) {
-        return this.id.compareTo(
-            outraMina.getId()
-        );
+        return this.id.compareTo(outraMina.getId());
     }
 
     /**
-     * Duas minas são consideradas iguais
-     * quando possuem o mesmo identificador.
-     */
+    * Duas minas são consideradas iguais
+    * quando possuem o mesmo identificador.
+    */
     @Override
     public boolean equals(Object obj) {
 
@@ -76,10 +70,6 @@ public class Mina implements Comparable<Mina> {
     @Override
     public String toString() {
 
-        return "Mina [ID="
-            + id
-            + ", Modelo="
-            + modelo
-            + "]";
+        return "Mina [ID=" + id + ", Modelo=" + modelo + "]";
     }
 }

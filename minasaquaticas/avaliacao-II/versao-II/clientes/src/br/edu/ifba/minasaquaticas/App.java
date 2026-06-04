@@ -17,7 +17,7 @@ public class App {
 
         for (int i = 0; i < TOTAL_MINAS; i++) {
 
-            ClienteImpl cliente = new ClienteImpl();
+            ClienteImpl cliente = new ClienteImpl(); 
 
             cliente.configurar(
                 new Mina(i + 1, (i + 1) * 2),

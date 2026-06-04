@@ -9,41 +9,25 @@ import br.edu.ifba.minasaquaticas.ordenador.TipoOrdenacao;
 public interface Operacoes<Monitorado, Leitura> {
 
     /**
-     * Grava uma leitura recebida do cliente.
-     */
-    public void gravar(
-        Monitorado monitorado,
-        Leitura leitura
-    );
+    * Grava uma leitura recebida do cliente.
+    */
+    public void gravar(Monitorado monitorado, Leitura leitura);
 
     /**
-     * Grava a quantidade de eventos detectados
-     * localmente pela mina.
-     */
-    public void gravar(
-        Monitorado monitorado,
-        int eventos
-    );
+    * Grava a quantidade de eventos detectados
+    * localmente pela mina.
+    */
+    public void gravar(Monitorado monitorado, int eventos);
 
     // D.1 - Implementar
-    public void imprimirMonitorado(
-        List<Monitorado> monitorado
-    );
+    public void imprimirMonitorado(List<Monitorado> monitorado);
 
     // D.2 - Implementar
-    public void imprimir(
-        Map<Monitorado, List<Leitura>> leituras
-    );
+    public void imprimir(Map<Monitorado, List<Leitura>> leituras);
 
     // D.3 - Implementar
-    public Map<Monitorado, List<Leitura>> ordenar(
-        Map<Monitorado, List<Leitura>> leituras,
-        TipoOrdenacao tipoOrdenacao
-    );
+    public Map<Monitorado, List<Leitura>> ordenar(Map<Monitorado, List<Leitura>> leituras, TipoOrdenacao tipoOrdenacao);
 
     // D.4 - Implementar
-    public int detectarObjetoEmTransito(
-        Map<Mina, List<Leitura>> leiturasPorMinas,
-        int limiteProximidadeCritica
-    );
+    public int detectarObjetoEmTransito(Map<Mina, List<Leitura>> leiturasPorMinas, int limiteProximidadeCritica);
 }
