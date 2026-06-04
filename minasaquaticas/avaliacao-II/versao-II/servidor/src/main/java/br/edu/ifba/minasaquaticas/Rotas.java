@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.edu.ifba.minasaquaticas.impl.Leitura;
 import br.edu.ifba.minasaquaticas.impl.Mina;
 import br.edu.ifba.minasaquaticas.impl.OperacoesImpl;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -30,6 +31,7 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/minas")
 public class Rotas {
+    private static final Dotenv dotenv = Dotenv.configure().directory("../").load();
 
     /**
     * Estrutura central do servidor.
@@ -44,7 +46,7 @@ public class Rotas {
     /**
     * Caminho da chave privada.
     */
-    private static final String CAMINHO_CHAVE_PRIVADA = "E:\\MEGAsync\\projectServ\\www\\projetos_pessoais\\complexidade-algoritmos\\minasaquaticas\\avaliacao-II\\versao-II\\servidor\\chave\\ch_privada.txt";
+    private static final String CAMINHO_CHAVE_PRIVADA = dotenv.get("PRIVATE_KEY_PATH");
 
     /**
     * Chave privada carregada uma única vez.

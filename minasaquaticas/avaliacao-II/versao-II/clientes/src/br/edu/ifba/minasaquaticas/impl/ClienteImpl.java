@@ -15,6 +15,8 @@ import java.util.TreeMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 // ****************************
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -24,6 +26,7 @@ import br.edu.ifba.minasaquaticas.comunicacao.Resultado;
 import br.edu.ifba.minasaquaticas.sensoriamento.Sensoriamento;
 
 public class ClienteImpl implements Cliente<Mina, Leitura>, Runnable {
+    private static final Dotenv dotenv = Dotenv.configure().directory("../").load();
 
     /**
     * Quantidade de leituras geradas por cada mina.
@@ -53,8 +56,7 @@ public class ClienteImpl implements Cliente<Mina, Leitura>, Runnable {
     /**
     * Caminho da chave pública.
     */
-    private static final String CAMINHO_CHAVE_PUBLICA =  
-    "E:\\MEGAsync\\projectServ\\www\\projetos_pessoais\\complexidade-algoritmos\\minasaquaticas\\avaliacao-II\\versao-II\\clientes\\chave\\ch_publica.txt";
+    private static final String CAMINHO_CHAVE_PUBLICA = dotenv.get("PUBLIC_KEY_PATH");
 
     /**
     * Limiar mínimo para envio de alterações de profundidade.

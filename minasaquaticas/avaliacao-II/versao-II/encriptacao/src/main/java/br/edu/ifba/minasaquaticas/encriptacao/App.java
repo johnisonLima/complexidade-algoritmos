@@ -5,31 +5,29 @@ import java.security.SecureRandom;
 import br.edu.ifba.minasaquaticas.encriptacao.aleatoriedade.GeradorDeAleatoriedadeReal;
 import br.edu.ifba.minasaquaticas.encriptacao.chaves.GeradorDeChaves;
 import br.edu.ifba.minasaquaticas.encriptacao.impl.GeradorDeChavesImpl;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class App {
+    private static final Dotenv dotenv = Dotenv.configure().directory("../").load();
 
     /**
     * Vídeo utilizado como fonte de aleatoriedade.
     */
-    private static final String CAMINHO_VIDEO =
-        "E:\\MEGAsync\\projectServ\\www\\projetos_pessoais\\complexidade-algoritmos\\minasaquaticas\\avaliacao-II\\versao-II\\encriptacao\\video\\aranha.mp4";
+    private static final String CAMINHO_VIDEO = dotenv.get("VIDEO_PATH");
 
     /**
     * Algoritmo de criptografia utilizado.     */
-    private static final String ALGORITMO_ENCRIPTACAO =
-        "RSA";
+    private static final String ALGORITMO_ENCRIPTACAO = "RSA";
 
     /**
     * Arquivo da chave pública.
     */
-    private static final String CAMINHO_CHAVE_PUBLICA =
-        "E:\\MEGAsync\\projectServ\\www\\projetos_pessoais\\complexidade-algoritmos\\minasaquaticas\\avaliacao-II\\versao-II\\clientes\\chave\\ch_publica.txt";
+    private static final String CAMINHO_CHAVE_PUBLICA = dotenv.get("PUBLIC_KEY_PATH");
 
     /**
     * Arquivo da chave privada.
     */
-    private static final String CAMINHO_CHAVE_PRIVADA =
-        "E:\\MEGAsync\\projectServ\\www\\projetos_pessoais\\complexidade-algoritmos\\minasaquaticas\\avaliacao-II\\versao-II\\servidor\\chave\\ch_privada.txt";
+    private static final String CAMINHO_CHAVE_PRIVADA = dotenv.get("PRIVATE_KEY_PATH");
 
     /**
     * Quantidade máxima de quadros
