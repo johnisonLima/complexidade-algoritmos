@@ -289,6 +289,47 @@ Ela compara as leituras de diferentes minas para identificar possíveis objetos 
 
 ---
 
+# Inserir após a seção onde é apresentado o OperacoesImpl.java
+
+# Fila de Dados Recentes
+
+## Mostrar
+
+Arquivo:
+
+```text
+servidor/impl/OperacoesImpl.java
+```
+
+### Destacar
+
+Estrutura utilizada:
+
+```java
+Map<Mina, Queue<Leitura>>
+```
+
+### Destacar também
+
+Trecho responsável pelo controle da fila:
+
+```java
+if (leituras.size() >= LIMIAR_ROTACIONAMENTO_LEITURAS)
+{
+    leituras.poll();
+}
+```
+
+### Falar
+
+Para atender ao requisito de acúmulo e processamento somente dos dados mais recentes, o servidor utiliza uma fila de leituras para cada mina monitorada.
+
+Quando o limite configurado é atingido, a leitura mais antiga é removida automaticamente da estrutura através do método poll().
+
+Dessa forma, o sistema mantém apenas os dados mais recentes, evitando crescimento excessivo do consumo de memória e tornando o processamento mais eficiente.
+
+
+
 # 11. Rota de Quantidade
 
 ## Mostrar
